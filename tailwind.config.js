@@ -12,9 +12,9 @@ export default {
         '2': '8px',
         '3': '12px',
         '2.5': '18px',
-        'min-47px': '50px',
-        'min-100px': '100px',
-        'min-180px': '150px'
+        'min-47px': '60px',
+        'min-100px': '120px',
+        'min-180px': '180px'
 
       },
       screens: {
@@ -58,8 +58,9 @@ export default {
           'object-fit': 'cover',
           'border-radius': theme('borderRadius.10px'),
           border: '2px solid #fff',
-          width: theme('spacing.min-47px'),
-          height: theme('spacing.min-47px'),
+          width: theme('spacing.min-100px'),
+          height: theme('spacing.min-100px'),
+          
         },
         '.card--flipped .card__front-card': {
           transform: 'rotateY(0deg)',
@@ -74,6 +75,7 @@ export default {
           padding: '2px',
           width: theme('spacing.min-47px'),
           height: theme('spacing.min-47px'),
+          
         },
         '@screen sm': {
           '.card__front-card, .card__back-card': {
@@ -119,10 +121,13 @@ export default {
         '.game-board__button': {
           '@apply bg-none border-2 border-white px-3 py-1 rounded text-white font-bold cursor-pointer text-base hover:bg-[#c23866] hover:text-white': {},
         },
+        
+        '.game-board__button--secondary': {
+          '@apply bg-none border-2 border-white px-3 py-1 rounded text-red-500 font-bold cursor-pointer text-base hover:bg-[#c23866] hover:text-white': {},
+        },
         '.game-board__list': {
           '@apply mt-12 grid gap-2.5': {},
-          'grid-template-columns': 'repeat(5, minmax(0, 1fr))', 
-          'grid-template-rows': 'repeat(5, minmax(0, 1fr))', 
+          'grid-template-columns': 'repeat(5, minmax(0, 1fr))',
         },
         '.game-board__card': {
           '@apply relative': {},

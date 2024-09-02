@@ -4,18 +4,16 @@ import { Image } from "../types/definitions";
 import Card from "./Card.tsx";
 import ScoreBoard from "./ScoreBoard.tsx";
 
-type GameBoardProps = { cards: Image[] | null };
 
-export default function GameBoard({cards}:GameBoardProps) {
+export default function GameBoard() {
 
-    const {setMisses, setHits , setTurns, turns, hits, misses, resetTurn, choiceOne, choiceTwo, setCards,useFetchAndShuffleImages, level} = useImages();
-   
-    const res = useFetchAndShuffleImages(level);
-    
+  const { setMisses, setHits, setTurns, turns, hits, misses, resetTurn, choiceOne, choiceTwo, setCards, cards, images } = useImages();
+
+
   useEffect(() => {
     if (choiceOne && choiceTwo) {
       if (choiceOne.uuid === choiceTwo.uuid) {
-        setCards((prevCards) => {
+        setCards((prevCards: Image[]) => {
           return prevCards.map((card: Image) => {
             if (card.uuid === choiceOne.uuid) {
               return { ...card, match: true }
@@ -23,12 +21,10 @@ export default function GameBoard({cards}:GameBoardProps) {
             else { return card }
           })
         });
-        console.log('hit');
         setTurns(turns + 1);
         setHits(hits + 1);
         resetTurn();
       } else {
-        console.log('miss');
         setTurns(turns + 1);
         setMisses(misses + 1);
         setTimeout(resetTurn, 800);
@@ -37,30 +33,30 @@ export default function GameBoard({cards}:GameBoardProps) {
   }, [choiceOne, choiceTwo]);
 
   useEffect(() => {
-    setCards(res);
-  }, [level]);
-    
+    setCards(images);
+  }, [cards]);
 
   return (
     <div className="game-board">
-    <ScoreBoard />
+      <ScoreBoard />
       <ul className="game-board__list">
         {cards ? (
           cards.map((card: Image, index: number) => {
             return (
-              <li key={index} className="game-board__card">
-                <Card
-                  card={card}
-                  flipped={card === choiceOne || card === choiceTwo || card.match === true}
-                />
-              </li>
+
+              <Card
+                key={index}
+                card={card}
+                flipped={card === choiceOne || card === choiceTwo || card.match === true}
+              />
+
             );
           })
         ) : (
-          <div className="loader"></div>
+          <div className="loader flex"></div>
         )}
       </ul>
-     
+
     </div>
   );
 }

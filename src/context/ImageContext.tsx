@@ -29,29 +29,25 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         setChoiceOne(null);
         setChoiceTwo(null);  
     }
+    const fetchAndShuffleImages = async (limit: number) => {
+        try {
+          const response = await axios.get('/api/images');
+          const limitedImages = response.data.slice(0, limit);
+          const shuffledAndDuplicatedImages = shuffleAndDuplicate(limitedImages);
+          setImages(shuffledAndDuplicatedImages);
+        } catch (error) {
+          console.error("Error fetching the images:", error);
+        }
+      };
 
- const useFetchAndShuffleImages =(limit: ImageContextType['level']): ImageContextType['images'] => {
-       
-        useEffect(() => {
-            axios.get('/api/images')
-                .then(response => {
-                    const limitedImages = response.data.slice(0, limit);
-                    const shuffledAndDuplicatedImages = shuffleAndDuplicate(limitedImages);
-                    setImages(shuffledAndDuplicatedImages);
-                })
-                .catch(error => {
-                    console.error("Error fetching the images:", error);
-                });
-        }, [limit]);
-    
-        return images;
-    }
-
+    useEffect(() => {
+        fetchAndShuffleImages(level);
+    }, [level]);
 
 
     return (
         <ImageContext.Provider value={{
-            images, useFetchAndShuffleImages, resetTurn, cards, turns, setTurns, setCards, level, setLevel,
+            images, fetchAndShuffleImages, resetTurn, cards, turns, setTurns, setCards, level, setLevel,
             choiceOne, setChoiceOne, choiceTwo, setChoiceTwo, setScore, score, setMisses, misses, setHits, hits
         }}>
             {children}

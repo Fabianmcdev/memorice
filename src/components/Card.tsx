@@ -6,6 +6,7 @@ import { useImages } from '../context/ImageContext';
 type CardProps = {
     card:Image;
     flipped:boolean;
+    key:number;
 }
 
 
@@ -18,7 +19,8 @@ const Card = ({card, flipped}:CardProps) => {
     }
  
     return (
-        <li className={`card ${flipped ? 'card--flipped' : ''}`}>
+        <li className="game-board__card">
+        <div className={`card ${flipped ? 'card--flipped' : ''}`}>
             <img
                 className="card__front-card"
                 src={card.url}
@@ -30,6 +32,7 @@ const Card = ({card, flipped}:CardProps) => {
                 src={logo}
                 alt="logo"
             />
+        </div>
         </li>
     )
 }

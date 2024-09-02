@@ -1,8 +1,8 @@
-# afp-uno-challenge
+# memory-game
 
 ## Descripción
 
-`afp-uno-challenge` es un juego de memorice desarrollado con ReactJS. El objetivo del juego es encontrar todas las parejas de cartas en el menor número de intentos posible.
+`memory-game` es un juego de memorice desarrollado con ReactJS. El objetivo del juego es encontrar todas las parejas de cartas en el menor número de intentos posible.
 
 ## Requisitos Previos
 
@@ -21,3 +21,5 @@ git clone git@github.com:Fabianmcdev/memorice.git
 cd memorice
 
 pnpm install
+
+pnpm run dev

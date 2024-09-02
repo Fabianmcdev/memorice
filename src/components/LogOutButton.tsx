@@ -13,7 +13,7 @@ export default function LogOutButton() {
     <>
     <button
       onClick={handleLogout}
-      className="game-board__button "
+      className="game-board__button--secondary "
     >
       Logout
     </button>

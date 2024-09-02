@@ -3,13 +3,10 @@ import { useUser } from '../context/UserContext';
 import { useImages } from '../context/ImageContext';
 import { Levels } from '../types/definitions';
 
-type LoginFormProps = {
-  user: string | null;
-};
 
-export default function LoginForm({ user }: LoginFormProps) {
+export default function LoginForm() {
   const { setUser } = useUser();
-  const { setLevel, useFetchAndShuffleImages, level, setCards } = useImages();
+  const { setLevel, fetchAndShuffleImages, level, setCards, images } = useImages();
   const [name, setName] = useState<string>('');
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -19,7 +16,8 @@ export default function LoginForm({ user }: LoginFormProps) {
     'advanced': 20,
   };
   
-  const res = useFetchAndShuffleImages(level);
+  const res = fetchAndShuffleImages(level);
+
   const handleLogin = () => {
     setShowForm(true);
   };
@@ -29,18 +27,19 @@ export default function LoginForm({ user }: LoginFormProps) {
     localStorage.setItem('user', name);
     setUser(name);
     setShowForm(false);
-    setCards(res)
+    setCards(images)
   };
 
   const handleLevelSelection = (selectedLevel:any) => {
-    setLevel(selectedLevel); // Realiza el fetch de las imágenes basado en el nivel seleccionado
-  };
+    setLevel(selectedLevel); 
+   };
 
   return (
     <div className="login-form--centered">
       <div className="login-form__container">
         {showForm ? (
           <form onSubmit={handleSubmit} className="login-form__form">
+             <h1 className="text-3xl text-black font-bold p-2">Memo Game</h1>
             <input
               type="text"
               value={name}
@@ -67,12 +66,16 @@ export default function LoginForm({ user }: LoginFormProps) {
             </button>
           </form>
         ) : (
-          <button
+          <div className="div">
+            <h1 className="text-3xl text-black font-bold">Memo Game</h1>
+            <button
             onClick={handleLogin}
             className="login-form__button login-form__button--primary"
           >
-            Login
+            Begin
           </button>
+          </div>
+         
         )}
       </div>
     </div>

@@ -4,7 +4,6 @@ import { UserContextType } from '../types/definitions';
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-// Hook personalizado para acceder al contexto
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
@@ -12,8 +11,6 @@ export const useUser = () => {
   }
   return context;
 };
-
-// Componente proveedor del contexto
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
 

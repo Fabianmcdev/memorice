@@ -8,7 +8,7 @@ export type Image = {
 }
 
 
-type ImageArray = Array<Image>;
+export type ImageArray = Array<Image>;
 type Setter<T> = (value: T) => void;
 
 type ImageNullable = Image | null;
@@ -24,7 +24,7 @@ export interface ImageContextType  {
     images: ImageArray;
     turns: number;
     setTurns: Setter<number>;
-    useFetchAndShuffleImages: (limit: 10 | 15 | 20) => ImageContextType['images'];
+    fetchAndShuffleImages: (limit: 10 | 15 | 20) => void;
     cards: ImageArray | null;
     setCards: Setter<ImageArray | null>;
     choiceOne: ImageNullable;
