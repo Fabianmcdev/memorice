@@ -6,20 +6,17 @@ import LogOutButton from "./LogOutButton";
 
 const ScoreBoard = () => {
     const { user } = useUser();
-    const { turns, misses, hits, setCards, setMisses, setHits, setTurns, cards, level, fetchAndShuffleImages } = useImages();
+    const { turns, misses, hits, setCards, setMisses, setHits, setTurns, level, fetchAndShuffleImages } = useImages();
 
-    if (cards === null) {
-        fetchAndShuffleImages(level);
-    }
+
 
     const handleReset = () => {
         setMisses(0);
         setHits(0);
         setTurns(0);
         setCards(null);
-
+        fetchAndShuffleImages(level);
     };
-
     return (
         <nav className="flex flex-col items-center justify-center gap-2">
 

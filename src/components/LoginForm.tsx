@@ -6,7 +6,7 @@ import { Levels } from '../types/definitions';
 
 export default function LoginForm() {
   const { setUser } = useUser();
-  const { setLevel, fetchAndShuffleImages, level, setCards, images } = useImages();
+  const { setLevel} = useImages();
   const [name, setName] = useState<string>('');
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -16,7 +16,6 @@ export default function LoginForm() {
     'advanced': 20,
   };
   
-  const res = fetchAndShuffleImages(level);
 
   const handleLogin = () => {
     setShowForm(true);
@@ -27,7 +26,6 @@ export default function LoginForm() {
     localStorage.setItem('user', name);
     setUser(name);
     setShowForm(false);
-    setCards(images)
   };
 
   const handleLevelSelection = (selectedLevel:any) => {

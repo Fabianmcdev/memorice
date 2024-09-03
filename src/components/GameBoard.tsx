@@ -9,7 +9,6 @@ export default function GameBoard() {
 
   const { setMisses, setHits, setTurns, turns, hits, misses, resetTurn, choiceOne, choiceTwo, setCards, cards, images } = useImages();
 
-
   useEffect(() => {
     if (choiceOne && choiceTwo) {
       if (choiceOne.uuid === choiceTwo.uuid) {
@@ -34,27 +33,25 @@ export default function GameBoard() {
 
   useEffect(() => {
     setCards(images);
-  }, [cards]);
+  }, [images]);
 
+  
   return (
     <div className="game-board">
-      <ScoreBoard />
+      <ScoreBoard /> 
       <ul className="game-board__list">
-        {cards ? (
+        {cards && cards.length > 0 ? 
           cards.map((card: Image, index: number) => {
             return (
-
               <Card
                 key={index}
                 card={card}
                 flipped={card === choiceOne || card === choiceTwo || card.match === true}
               />
-
             );
           })
-        ) : (
-          <div className="loader flex"></div>
-        )}
+         : <div className="loader mx-auto m-72"></div>
+        }
       </ul>
 
     </div>

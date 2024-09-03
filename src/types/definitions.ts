@@ -38,6 +38,6 @@ export interface ImageContextType  {
     score: number;
     setScore: Setter<number>;
     resetTurn: () => void;
-    level: 10 | 15 | 20 ;
+    level: 10 | 15 | 20  ;
     setLevel: Setter<ImageContextType['level']>;
 }
