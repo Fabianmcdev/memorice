@@ -58,8 +58,8 @@ export default {
           'object-fit': 'cover',
           'border-radius': theme('borderRadius.10px'),
           border: '2px solid #fff',
-          width: theme('spacing.min-100px'),
-          height: theme('spacing.min-100px'),
+          width: theme('spacing.min-47px'),
+          height: theme('spacing.min-47px'),
           
         },
         '.card--flipped .card__front-card': {

@@ -13,9 +13,10 @@ export const useUser = () => {
 };
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
+  const [isGameOver, setIsGameOver] = useState<UserContextType['isGameOver']>();
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, isGameOver, setIsGameOver }}>
       {children}
     </UserContext.Provider>
   );

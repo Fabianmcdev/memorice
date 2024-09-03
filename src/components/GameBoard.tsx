@@ -1,13 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useImages } from "../context/ImageContext.tsx";
 import { Image } from "../types/definitions";
 import Card from "./Card.tsx";
 import ScoreBoard from "./ScoreBoard.tsx";
+import Confetti from "react-confetti";
+import { useUser } from "../context/UserContext.tsx";
 
 
 export default function GameBoard() {
 
   const { setMisses, setHits, setTurns, turns, hits, misses, resetTurn, choiceOne, choiceTwo, setCards, cards, images } = useImages();
+  const { setIsGameOver, isGameOver } = useUser();
+  const [gameStarted, setGameStarted] = useState<boolean>();
+
+
+  useEffect(() => {
+    setCards(images.map((card: Image) => ({ ...card, match: true })));
+    const timer = setTimeout(() => {
+      setCards(images.map((card: Image) => ({ ...card, match: false })));
+      setGameStarted(true);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [images, setCards]);
+
+
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
@@ -32,12 +48,15 @@ export default function GameBoard() {
   }, [choiceOne, choiceTwo]);
 
   useEffect(() => {
-    setCards(images);
-  }, [images]);
+    if (gameStarted && cards ? cards.length > 0 && cards.every((card) => card.match === true) : false) {
+      setIsGameOver(true);
+    }
+  }, [gameStarted]);
 
-  
+
   return (
     <div className="game-board">
+      {isGameOver  && <Confetti />}
       <ScoreBoard /> 
       <ul className="game-board__list">
         {cards && cards.length > 0 ? 

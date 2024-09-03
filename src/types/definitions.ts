@@ -18,6 +18,8 @@ export type Levels = Record<string, number>;
 export interface UserContextType {
   user: string | null;
   setUser: Setter<string | null>;
+  isGameOver: boolean | undefined;
+  setIsGameOver: Setter<boolean>;
 }
 
 export interface ImageContextType  {

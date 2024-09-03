@@ -5,10 +5,8 @@ import LogOutButton from "./LogOutButton";
 
 
 const ScoreBoard = () => {
-    const { user } = useUser();
+    const { user, setIsGameOver } = useUser();
     const { turns, misses, hits, setCards, setMisses, setHits, setTurns, level, fetchAndShuffleImages } = useImages();
-
-
 
     const handleReset = () => {
         setMisses(0);
@@ -16,6 +14,7 @@ const ScoreBoard = () => {
         setTurns(0);
         setCards(null);
         fetchAndShuffleImages(level);
+        
     };
     return (
         <nav className="flex flex-col items-center justify-center gap-2">
