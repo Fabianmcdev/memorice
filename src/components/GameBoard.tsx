@@ -26,6 +26,7 @@ export default function GameBoard() {
 
       if (choiceOne.uuid === choiceTwo.uuid) {
         // Si las cartas coinciden
+        //@ts-ignore
         setCards((prevCards: Image[] ) => {
           if (!prevCards) return [];
           return prevCards.map((card: Image) => {
