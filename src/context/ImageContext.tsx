@@ -1,4 +1,4 @@
-import { createContext, useState,useContext, ReactNode, useEffect } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { ImageContextType } from '../types/definitions';
 import { shuffleAndDuplicate } from './utils';
 import axios from 'axios';
@@ -25,20 +25,21 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     const [hits, setHits] = useState<ImageContextType['hits']>(0);
     const [level, setLevel] = useState<ImageContextType['level']>(10);
 
-     const resetTurn = () => {
+    const resetTurn = () => {
         setChoiceOne(null);
-        setChoiceTwo(null);  
+        setChoiceTwo(null);
     }
     const fetchAndShuffleImages = async (limit: number) => {
         try {
-          const response = await axios.get('/api/images');
-          const limitedImages = response.data.slice(0, limit);
-          const shuffledAndDuplicatedImages = shuffleAndDuplicate(limitedImages);
-          setImages(shuffledAndDuplicatedImages);
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const response = await axios.get(`${apiUrl}/images`);
+            const limitedImages = response.data.slice(0, limit);
+            const shuffledAndDuplicatedImages = shuffleAndDuplicate(limitedImages);
+            setImages(shuffledAndDuplicatedImages);
         } catch (error) {
-          console.error("Error fetching the images:", error);
+            console.error("Error fetching the images:", error);
         }
-      };
+    };
 
     useEffect(() => {
         fetchAndShuffleImages(level);
