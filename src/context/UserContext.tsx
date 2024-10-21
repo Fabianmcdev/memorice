@@ -13,10 +13,11 @@ export const useUser = () => {
 };
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
-  const [isGameOver, setIsGameOver] = useState<UserContextType['isGameOver']>();
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<UserContextType['isGameOver']>(false);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isGameOver, setIsGameOver }}>
+    <UserContext.Provider value={{ user, setUser, isGameOver, setIsGameOver, gameStarted, setGameStarted }}>
       {children}
     </UserContext.Provider>
   );

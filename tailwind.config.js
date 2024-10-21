@@ -109,7 +109,7 @@ export default {
           '@apply mt-4 text-white px-4 py-2 rounded-md w-full': {},
         },
         '.login-form__button--primary': {
-          '@apply bg-green-500 hover:bg-green-600': {}, 
+          '@apply bg-green-500 hover:bg-green-700 focus:bg-purple-600': {}, 
         },
         '.login-form__button--secondary': {
           '@apply bg-red-500 hover:bg-red-600': {}, 

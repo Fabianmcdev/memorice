@@ -30,6 +30,7 @@ export default function LoginForm() {
 
   const handleLevelSelection = (selectedLevel:any) => {
     setLevel(selectedLevel); 
+    console.log(selectedLevel);
    };
 
   return (
@@ -47,11 +48,12 @@ export default function LoginForm() {
               required
             />
             <ul className="login-form__level-list">
+             <p className='p-2 text-xl text-black font-bold'>Select your level:</p>
               {Object.keys(options).map((key) => (
                 <li key={key} className="login-form__level-item">
                   <button
                     type="button"
-                    className="login-form__button login-form__button--primary"
+                    className={`login-form__button login-form__button--primary`}
                     onClick={() => handleLevelSelection(options[key])}
                   >
                     {key}
@@ -60,7 +62,7 @@ export default function LoginForm() {
               ))}
             </ul>
             <button type="submit" className="login-form__button login-form__button--secondary">
-              Submit
+              Start
             </button>
           </form>
         ) : (

@@ -3,11 +3,14 @@ import { useUser } from "../context/UserContext";
 
 export default function LogOutButton() {
     const { setUser } = useUser();
-    const { setCards, setLevel } = useImages();
+    const { setCards, setLevel, setHits, setMisses, setTurns } = useImages();
     const handleLogout = () => {
         setCards(null);
         setUser(null);
         setLevel(10);
+        setHits(0);
+        setMisses(0);
+        setTurns(0);
         localStorage.removeItem('user');
       };
   return (

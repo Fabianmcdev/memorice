@@ -5,16 +5,17 @@ import LogOutButton from "./LogOutButton";
 
 
 const ScoreBoard = () => {
-    const { user, setIsGameOver } = useUser();
+    const { user, setIsGameOver, setGameStarted } = useUser();
     const { turns, misses, hits, setCards, setMisses, setHits, setTurns, level, fetchAndShuffleImages } = useImages();
 
     const handleReset = () => {
         setMisses(0);
         setHits(0);
         setTurns(0);
+        setIsGameOver(false);
+        setGameStarted(true);
         setCards(null);
         fetchAndShuffleImages(level);
-        
     };
     return (
         <nav className="flex flex-col items-center justify-center gap-2">
@@ -22,6 +23,7 @@ const ScoreBoard = () => {
             <section className="flex flex-col items-center flex-auto ">
                 <h1 className="text-3xl font-bold">Memo Game</h1>
                 <p className="text-xl font-bold">User: {user}</p>
+                <p className="text-xl font-bold">Level: {level===10?'Beginner':level===15?'Intermediate':'Advanced'}</p>
             </section>
             <section className="flex flex-row items-center justify-center sm:gap-2 md:gap-6 p-0">
                 <p className="text-xl font-bold">Turns: {turns}</p>

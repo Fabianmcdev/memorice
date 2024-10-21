@@ -9,17 +9,20 @@ export type Image = {
 
 
 export type ImageArray = Array<Image>;
-type Setter<T> = (value: T) => void;
 
-type ImageNullable = Image | null;
+export type Setter<T> = (value: T) => void;
+
+export type ImageNullable = Image | null;
 
 export type Levels = Record<string, number>;
 
 export interface UserContextType {
   user: string | null;
   setUser: Setter<string | null>;
-  isGameOver: boolean | undefined;
+  isGameOver: boolean ;
   setIsGameOver: Setter<boolean>;
+  gameStarted: boolean;
+  setGameStarted: Setter<boolean>;
 }
 
 export interface ImageContextType  {
