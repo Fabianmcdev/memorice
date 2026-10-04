@@ -1,48 +1,35 @@
+import { Dispatch, SetStateAction } from 'react';
 
 export type Image = {
     uuid: string;
     url: string;
     title: string;
     content_type?: string;
-    match?: boolean;
 }
-
 
 export type ImageArray = Array<Image>;
 
-export type Setter<T> = (value: T) => void;
+// One card instance on the board. Both cards of a pair share `pairKey`, but each has its own `id`.
+export type GameCard = {
+    id: string;
+    pairKey: string;
+    url: string;
+    title: string;
+    matched: boolean;
+}
 
-export type ImageNullable = Image | null;
+export type Setter<T> = Dispatch<SetStateAction<T>>;
 
 export type Levels = Record<string, number>;
 
 export interface UserContextType {
   user: string | null;
   setUser: Setter<string | null>;
-  isGameOver: boolean ;
-  setIsGameOver: Setter<boolean>;
-  gameStarted: boolean;
-  setGameStarted: Setter<boolean>;
 }
 
 export interface ImageContextType  {
-    images: ImageArray;
-    turns: number;
-    setTurns: Setter<number>;
+    images: GameCard[];
     fetchAndShuffleImages: (limit: 10 | 15 | 20) => void;
-    cards: ImageArray | null;
-    setCards: Setter<ImageArray | null>;
-    choiceOne: ImageNullable;
-    setChoiceOne: Setter<ImageNullable>;
-    choiceTwo: ImageNullable;
-    setChoiceTwo: Setter<ImageNullable>;
-    misses: number;
-    hits: number;
-    setMisses: Setter<number>;
-    setHits: Setter<number>;
-    score: number;
-    setScore: Setter<number>;
-    resetTurn: () => void;
     level: 10 | 15 | 20  ;
     setLevel: Setter<ImageContextType['level']>;
 }

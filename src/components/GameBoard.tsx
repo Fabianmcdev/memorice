@@ -1,80 +1,40 @@
-import { useEffect, useState } from "react";
 import { useImages } from "../context/ImageContext.tsx";
-import { Image } from "../types/definitions";
+import { canPick, isFaceUp } from "../game/memoryGame.ts";
+import { useMemoryGame } from "../game/useMemoryGame.ts";
 import Card from "./Card.tsx";
 import ScoreBoard from "./ScoreBoard.tsx";
 import Confetti from "react-confetti";
-import { useUser } from "../context/UserContext.tsx";
+import { useWindowSize } from "../hooks/useWindowSize.ts";
 
 export default function GameBoard() {
-  const { setMisses, setHits, setTurns, turns, hits, misses, resetTurn, choiceOne, choiceTwo, setCards, cards, images } = useImages();
-  const { setIsGameOver, isGameOver, setGameStarted, gameStarted } = useUser();
-  const [disableClicks, setDisableClicks] = useState<boolean>(false); // Flag para deshabilitar clics mientras se comparan las cartas
+  const { images, level, fetchAndShuffleImages } = useImages();
+  const { width, height } = useWindowSize();
+  const { state, pick, reset } = useMemoryGame(images);
+  const isGameOver = state.phase === 'won';
+  // Real pair count once the board is dealt (the API may return fewer images); the level until then.
+  const totalPairs = state.cards.length / 2 || level;
 
-  useEffect(() => {
-    setCards(images.map((card: Image) => ({ ...card, match: true })));
-    const timer = setTimeout(() => {
-      setCards(images.map((card: Image) => ({ ...card, match: false })));
-      setGameStarted(true);
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, [images, setCards]);
-
-  useEffect(() => {
-    if (choiceOne && choiceTwo && !disableClicks) {
-      setDisableClicks(true); // Deshabilitar clics mientras se realiza la comparación
-
-      if (choiceOne.uuid === choiceTwo.uuid) {
-        // Si las cartas coinciden
-        //@ts-ignore
-        setCards((prevCards: Image[] ) => {
-          if (!prevCards) return [];
-          return prevCards.map((card: Image) => {
-            if (card.uuid === choiceOne.uuid) {
-              return { ...card, match: true };
-            }
-            return card;
-          });
-        });
-        setTurns(turns + 1);
-        setHits(hits + 1);
-        setTimeout(() => {
-          resetTurn();
-          setDisableClicks(false); 
-        }, 800);
-      } else {
-        // Si las cartas no coinciden
-        setTurns(turns + 1);
-        setMisses(misses + 1);
-        setTimeout(() => {
-          resetTurn();
-          setDisableClicks(false); 
-        }, 800); // Tiempo para que las cartas se giren antes de resetear
-      }
-    }
-  }, [choiceOne, choiceTwo, setCards, setHits, setMisses, resetTurn, turns, hits, misses, disableClicks]);
-
-  useEffect(() => {
-    // Verificar si todas las cartas están emparejadas
-    if (gameStarted && cards && cards.length > 0 && cards.every((card) => card.match === true)) {
-      setIsGameOver(true);
-      setGameStarted(false) // Actualizar el estado del juego
-    }
-  }, [gameStarted, cards, setIsGameOver]);
+  const handleReset = () => {
+    reset();
+    fetchAndShuffleImages(level);
+  };
 
   return (
     <div className="game-board">
-      {isGameOver==true && gameStarted==false && <Confetti />}
-      {isGameOver==true && gameStarted==false && <p className="text-center text-2xl font-bold">¡Juego Terminado!</p>} 
-      <ScoreBoard />
+      {/* react-confetti reads the window size only once at import time and positions itself absolutely,
+          so feed it the live viewport size and pin it to the viewport to cover any screen and scroll position. */}
+      {isGameOver && <Confetti width={width} height={height} style={{ position: 'fixed' }} />}
+      {isGameOver && <p className="text-center text-2xl font-bold">¡Juego Terminado!</p>}
+      <ScoreBoard turns={state.turns} hits={state.hits} misses={state.misses} totalPairs={totalPairs} onReset={handleReset} onLogout={reset} />
       <ul className="game-board__list">
-        {cards && cards.length > 0 ? (
-          cards.map((card: Image, index: number) => (
+        {state.cards.length > 0 ? (
+          state.cards.map((card) => (
             <Card
-              key={index}
+              key={card.id}
               card={card}
-              flipped={card === choiceOne || card === choiceTwo || card.match === true}
-             
+              flipped={isFaceUp(state, card)}
+              disabled={!canPick(state, card.id)}
+              onPick={pick}
             />
           ))
         ) : (

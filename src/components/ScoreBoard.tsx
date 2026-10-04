@@ -1,40 +1,58 @@
-
-import { useImages } from "../context/ImageContext"
+import { useImages } from "../context/ImageContext";
 import { useUser } from "../context/UserContext";
+import { getLevelLabel, getScoreSummary } from "../game/score";
+import GameLogo from "./GameLogo";
+import GameStats from "./GameStats";
+import { RestartIcon } from "./icons";
 import LogOutButton from "./LogOutButton";
+import PlayerChip from "./PlayerChip";
 
+type ScoreBoardProps = {
+    turns: number;
+    hits: number;
+    misses: number;
+    totalPairs: number;
+    onReset: () => void;
+    onLogout: () => void;
+}
 
-const ScoreBoard = () => {
-    const { user, setIsGameOver, setGameStarted } = useUser();
-    const { turns, misses, hits, setCards, setMisses, setHits, setTurns, level, fetchAndShuffleImages } = useImages();
+const ScoreBoard = ({ turns, hits, misses, totalPairs, onReset, onLogout }: ScoreBoardProps) => {
+    const { user } = useUser();
+    const { level } = useImages();
+    const { accuracy, progressPct } = getScoreSummary({ hits, turns, totalPairs });
+    const player = { name: user ?? '', levelLabel: getLevelLabel(level), pairs: level };
 
-    const handleReset = () => {
-        setMisses(0);
-        setHits(0);
-        setTurns(0);
-        setIsGameOver(false);
-        setGameStarted(true);
-        setCards(null);
-        fetchAndShuffleImages(level);
-    };
     return (
-        <nav className="flex flex-col items-center justify-center gap-2">
+        <div className="flex flex-col gap-4 text-left">
+            <header className="flex items-center justify-between gap-2 rounded-[20px] border border-white/[0.08] bg-surface py-2 pl-3 pr-2 min-[640px]:py-[14px] min-[640px]:pl-5 min-[640px]:pr-[14px]">
+                <GameLogo />
+                <div className="flex items-center gap-2 min-[640px]:gap-3">
+                    <PlayerChip {...player} variant="pill" className="hidden min-[640px]:flex" />
+                    <span aria-hidden="true" className="hidden h-7 w-px bg-white/[0.12] min-[640px]:block" />
+                    <button
+                        type="button"
+                        onClick={onReset}
+                        aria-label="Restart game"
+                        className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-accent text-[15px] font-bold text-white transition-colors hover:bg-accent-strong focus-visible:bg-accent-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent min-[640px]:w-auto min-[640px]:px-[18px]"
+                    >
+                        <RestartIcon />
+                        <span className="hidden min-[640px]:inline">Restart</span>
+                    </button>
+                    <LogOutButton onLogout={onLogout} />
+                </div>
+            </header>
 
-            <section className="flex flex-col items-center flex-auto ">
-                <h1 className="text-3xl font-bold">Memo Game</h1>
-                <p className="text-xl font-bold">User: {user}</p>
-                <p className="text-xl font-bold">Level: {level===10?'Beginner':level===15?'Intermediate':'Advanced'}</p>
-            </section>
-            <section className="flex flex-row items-center justify-center sm:gap-2 md:gap-6 p-0">
-                <p className="text-xl font-bold">Turns: {turns}</p>
-                <p className="text-xl font-bold text-green-500">Hits: {hits}</p>
-                <p className="text-xl font-bold text-red-500">Misses: {misses}</p>
-                <button onClick={handleReset} className="game-board__button">Reset</button>
+            <PlayerChip {...player} variant="row" className="min-[640px]:hidden" />
 
-                <LogOutButton />
-            </section>
-
-        </nav>
+            <GameStats
+                hits={hits}
+                turns={turns}
+                misses={misses}
+                totalPairs={totalPairs}
+                accuracy={accuracy}
+                progressPct={progressPct}
+            />
+        </div>
     );
 };
 

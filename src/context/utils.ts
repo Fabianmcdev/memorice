@@ -1,6 +1,13 @@
-import { ImageContextType } from '../types/definitions';
-export function shuffleAndDuplicate(array: ImageContextType['images']): ImageContextType['images'] {
-    const duplicatedArray = array.flatMap(item => [{ ...item, match: false }, { ...item, match: false }]);
+import { GameCard, ImageArray } from '../types/definitions';
+
+export function shuffleAndDuplicate(array: ImageArray): GameCard[] {
+    const duplicatedArray: GameCard[] = array.flatMap((item, index) => [0, 1].map((copy) => ({
+        id: `${index}-${copy}-${item.uuid}`,
+        pairKey: item.uuid,
+        url: item.url,
+        title: item.title,
+        matched: false,
+    })));
 
     let currentIndex = duplicatedArray.length;
 

@@ -34,6 +34,18 @@ export default {
       },
       colors: {
         aliceblue: '#f0f8ff',
+        surface: '#251d31',
+        'surface-2': '#2f2540',
+        track: '#3a2f4d',
+        ink: '#f4f1f8',
+        muted: '#b7aec6',
+        accent: '#c23866',
+        'accent-strong': '#a82e57',
+        hit: '#7cc8ff',
+        miss: '#ffa05c',
+      },
+      fontFamily: {
+        display: ['Fredoka', 'sans-serif'],
       },
       transformOrigin: {
         'center': 'center center',
@@ -117,13 +129,6 @@ export default {
 
         '.game-board': {
           '@apply max-w-screen-lg mx-auto my-10 p-4': {},
-        },
-        '.game-board__button': {
-          '@apply bg-none border-2 border-white px-3 py-1 rounded text-white font-bold cursor-pointer text-base hover:bg-[#c23866] hover:text-white': {},
-        },
-        
-        '.game-board__button--secondary': {
-          '@apply bg-none border-2 border-white px-3 py-1 rounded text-red-500 font-bold cursor-pointer text-base hover:bg-[#c23866] hover:text-white': {},
         },
         '.game-board__list': {
           '@apply mt-12 grid gap-2.5': {},

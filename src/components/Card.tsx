@@ -1,23 +1,20 @@
 
 import logo from '../assets/logo.png'
-import { Image } from '../types/definitions';
-import { useImages } from '../context/ImageContext';
+import { GameCard } from '../types/definitions';
 
 type CardProps = {
-    card:Image;
-    flipped:boolean;
-    key:number;
+    card: GameCard;
+    flipped: boolean;
+    disabled: boolean;
+    onPick: (cardId: string) => void;
 }
 
 
-const Card = ({card, flipped}:CardProps) => {
-    const { setChoiceOne, setChoiceTwo, choiceOne } = useImages();
-
-    const handleChoice = (card:Image) => {
-        choiceOne? setChoiceTwo(card) : setChoiceOne(card);
-        
+const Card = ({ card, flipped, disabled, onPick }: CardProps) => {
+    const handleChoice = () => {
+        if (!disabled) onPick(card.id);
     }
- 
+
     return (
         <li className="game-board__card">
         <div className={`card ${flipped ? 'card--flipped' : ''}`}>
@@ -27,7 +24,7 @@ const Card = ({card, flipped}:CardProps) => {
                 alt={card.title}
             />
             <img
-                onClick={() => handleChoice(card)}
+                onClick={handleChoice}
                 className="card__back-card"
                 src={logo}
                 alt="logo"

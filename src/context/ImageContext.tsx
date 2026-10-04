@@ -16,19 +16,8 @@ export const useImages = () => {
 
 export const ImageProvider = ({ children }: { children: ReactNode }) => {
     const [images, setImages] = useState<ImageContextType['images']>([]);
-    const [cards, setCards] = useState<ImageContextType['cards']>([]);
-    const [choiceOne, setChoiceOne] = useState<ImageContextType['choiceOne'] | null>(null);
-    const [choiceTwo, setChoiceTwo] = useState<ImageContextType['choiceTwo'] | null>(null);
-    const [score, setScore] = useState<ImageContextType['score']>(0);
-    const [turns, setTurns] = useState<ImageContextType['turns']>(0);
-    const [misses, setMisses] = useState<ImageContextType['misses']>(0);
-    const [hits, setHits] = useState<ImageContextType['hits']>(0);
     const [level, setLevel] = useState<ImageContextType['level']>(10);
 
-    const resetTurn = () => {
-        setChoiceOne(null);
-        setChoiceTwo(null);
-    }
     const fetchAndShuffleImages = async (limit: number) => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL;
@@ -47,10 +36,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
 
 
     return (
-        <ImageContext.Provider value={{
-            images, fetchAndShuffleImages, resetTurn, cards, turns, setTurns, setCards, level, setLevel,
-            choiceOne, setChoiceOne, choiceTwo, setChoiceTwo, setScore, score, setMisses, misses, setHits, hits
-        }}>
+        <ImageContext.Provider value={{ images, fetchAndShuffleImages, level, setLevel }}>
             {children}
         </ImageContext.Provider>
     );
