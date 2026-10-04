@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { useImages } from '../context/ImageContext';
 import { Levels } from '../types/definitions';
+import { getLevelLabel } from '../game/score';
 
 
 export default function LoginForm() {
@@ -43,12 +44,12 @@ export default function LoginForm() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
+              placeholder="Ingresa tu nombre"
               className="login-form__input"
               required
             />
             <ul className="login-form__level-list">
-             <p className='p-2 text-xl text-black font-bold'>Select your level:</p>
+             <p className='p-2 text-xl text-black font-bold'>Selecciona tu nivel:</p>
               {Object.keys(options).map((key) => (
                 <li key={key} className="login-form__level-item">
                   <button
@@ -56,13 +57,13 @@ export default function LoginForm() {
                     className={`login-form__button login-form__button--primary`}
                     onClick={() => handleLevelSelection(options[key])}
                   >
-                    {key}
+                    {getLevelLabel(options[key])}
                   </button>
                 </li>
               ))}
             </ul>
             <button type="submit" className="login-form__button login-form__button--secondary">
-              Start
+              Comenzar
             </button>
           </form>
         ) : (
@@ -72,7 +73,7 @@ export default function LoginForm() {
             onClick={handleLogin}
             className="login-form__button login-form__button--primary"
           >
-            Begin
+            Jugar
           </button>
           </div>
          

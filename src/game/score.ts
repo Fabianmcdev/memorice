@@ -27,10 +27,31 @@ export const getScoreSummary = ({
   progressPct: clampPercent(toPercent(hits, totalPairs)),
 });
 
+const pluralize = (count: number, singular: string, plural: string): string =>
+  `${count} ${count === 1 ? singular : plural}`;
+
+/** Accessible value text for the pairs progress bar, e.g. "3 de 10 pares". */
+export const getPairsProgressText = ({ hits, totalPairs }: { hits: number; totalPairs: number }): string =>
+  `${hits} de ${totalPairs} pares`;
+
+/** Live-region summary of the score, e.g. "3 de 10 pares encontrados, 5 turnos, 2 errores". */
+export const getStatsAnnouncement = ({
+  hits,
+  totalPairs,
+  turns,
+  misses,
+}: {
+  hits: number;
+  totalPairs: number;
+  turns: number;
+  misses: number;
+}): string =>
+  `${hits} de ${totalPairs} pares encontrados, ${pluralize(turns, 'turno', 'turnos')}, ${pluralize(misses, 'error', 'errores')}`;
+
 const LEVEL_LABELS: Record<Level, string> = {
-  10: 'Beginner',
-  15: 'Intermediate',
-  20: 'Advanced',
+  10: 'Principiante',
+  15: 'Intermedio',
+  20: 'Avanzado',
 };
 
 export const getLevelLabel = (level: Level): string => LEVEL_LABELS[level];

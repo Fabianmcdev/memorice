@@ -10,7 +10,7 @@ type PlayerChipProps = {
 };
 
 export default function PlayerChip({ name, levelLabel, pairs, variant, className = '' }: PlayerChipProps) {
-  const levelText = `${levelLabel} · ${pairs} pairs`;
+  const levelText = `${levelLabel} · ${pairs} pares`;
   const initial = getPlayerInitial(name);
 
   if (variant === 'row') {

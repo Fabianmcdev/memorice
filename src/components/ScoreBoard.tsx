@@ -37,11 +37,11 @@ const ScoreBoard = ({ turns, hits, misses, totalPairs, onReset, onLogout }: Scor
                     <button
                         type="button"
                         onClick={onReset}
-                        aria-label="Restart game"
+                        aria-label="Reiniciar partida"
                         className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-accent text-[15px] font-bold text-white transition-colors hover:bg-accent-strong focus-visible:bg-accent-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent min-[640px]:w-auto min-[640px]:px-[18px] min-[1024px]:w-full"
                     >
                         <RestartIcon />
-                        <span className="hidden min-[640px]:inline">Restart</span>
+                        <span className="hidden min-[640px]:inline">Reiniciar</span>
                     </button>
                     <LogOutButton
                         onLogout={onLogout}

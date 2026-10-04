@@ -9,13 +9,16 @@ type StatTileProps = {
   children: ReactNode;
 };
 
+// Below 640px the four stats share one row (tiles can be ~66px wide at a 320px viewport), so the tile
+// tightens its padding, stacks the icon above a sentence-case label and shrinks the value.
 export default function StatTile({ label, icon, aside, className = '', children }: StatTileProps) {
   return (
     <div
-      className={`flex flex-col gap-[10px] rounded-2xl border border-white/[0.08] bg-surface px-5 py-4 text-left min-[1024px]:bg-surface-2 min-[1024px]:px-4 ${className}`}
+      className={`flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.08] bg-surface px-2 py-[10px] text-left min-[640px]:gap-[10px] min-[640px]:px-5 min-[640px]:py-4 min-[1024px]:bg-surface-2 min-[1024px]:px-4 ${className}`}
     >
-      <div className="flex items-center justify-between gap-3 min-[1024px]:flex-wrap min-[1024px]:gap-y-1">
-        <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-muted min-[640px]:text-[12px] min-[1024px]:text-[11px]">
+      {/* Wraps so a long label plus the aside never overflow (e.g. the pairs tile at ~640-700px). */}
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <span className="flex flex-col items-start gap-1 text-[11px] font-bold leading-tight text-muted min-[640px]:flex-row min-[640px]:items-center min-[640px]:gap-2 min-[640px]:text-[12px] min-[640px]:uppercase min-[640px]:leading-normal min-[640px]:tracking-[0.08em] min-[1024px]:text-[11px]">
           {icon}
           {label}
         </span>
@@ -33,7 +36,7 @@ type StatValueProps = {
 
 export const StatValue = ({ className = '', children }: StatValueProps) => (
   <span
-    className={`font-display text-[26px] font-semibold leading-none tabular-nums min-[640px]:text-[32px] min-[1024px]:text-[28px] ${className}`}
+    className={`font-display text-[22px] font-semibold leading-none tabular-nums min-[640px]:text-[32px] min-[1024px]:text-[28px] ${className}`}
   >
     {children}
   </span>

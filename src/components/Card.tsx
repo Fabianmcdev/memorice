@@ -1,5 +1,5 @@
 
-import logo from '../assets/logo.png'
+import cardBackLogo from '../assets/react.svg'
 import { GameCard } from '../types/definitions';
 
 type CardProps = {
@@ -25,9 +25,10 @@ const Card = ({ card, flipped, disabled, onPick }: CardProps) => {
             />
             <img
                 onClick={handleChoice}
-                className="card__back-card"
-                src={logo}
-                alt="logo"
+                // The logo is not square: contain it with some inset instead of the default cover crop.
+                className="card__back-card object-contain p-[18%]"
+                src={cardBackLogo}
+                alt="Carta boca abajo"
             />
         </div>
         </li>

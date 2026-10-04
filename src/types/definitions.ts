@@ -20,7 +20,7 @@ export type GameCard = {
 
 export type Setter<T> = Dispatch<SetStateAction<T>>;
 
-export type Levels = Record<string, number>;
+export type Levels = Record<string, ImageContextType['level']>;
 
 export interface UserContextType {
   user: string | null;

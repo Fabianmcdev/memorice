@@ -24,11 +24,11 @@ export default function LogOutButton({ onLogout, className = '', labelClassName 
     <button
       type="button"
       onClick={handleLogout}
-      aria-label="Log out"
+      aria-label="Cerrar sesión"
       className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.16] bg-transparent text-muted transition-colors hover:border-white/40 hover:text-white focus-visible:border-white/40 focus-visible:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${className}`}
     >
       <LogoutIcon />
-      <span className={labelClassName}>Log out</span>
+      <span className={labelClassName}>Cerrar sesión</span>
     </button>
   );
 }

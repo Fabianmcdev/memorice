@@ -33,8 +33,8 @@ export default {
         muted: '#b7aec6',
         accent: '#c23866',
         'accent-strong': '#a82e57',
-        hit: '#7cc8ff',
-        miss: '#ffa05c',
+        hit: '#4ade80',
+        miss: '#f87171',
       },
       fontFamily: {
         display: ['Fredoka', 'sans-serif'],

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { getLevelLabel, getPlayerInitial, getScoreSummary } from './score';
+import {
+  getLevelLabel,
+  getPairsProgressText,
+  getPlayerInitial,
+  getScoreSummary,
+  getStatsAnnouncement,
+} from './score';
 
 describe('getScoreSummary', () => {
   it('reports 0% accuracy before any turn is played', () => {
@@ -31,9 +37,9 @@ describe('getScoreSummary', () => {
 
 describe('getLevelLabel', () => {
   it.each([
-    [10, 'Beginner'],
-    [15, 'Intermediate'],
-    [20, 'Advanced'],
+    [10, 'Principiante'],
+    [15, 'Intermedio'],
+    [20, 'Avanzado'],
   ] as const)('labels %i pairs as %s', (level, label) => {
     expect(getLevelLabel(level)).toBe(label);
   });
@@ -51,5 +57,35 @@ describe('getPlayerInitial', () => {
   it('falls back to "?" for a missing or blank name', () => {
     expect(getPlayerInitial(null)).toBe('?');
     expect(getPlayerInitial('   ')).toBe('?');
+  });
+});
+
+describe('getPairsProgressText', () => {
+  it('describes the pairs found out of the total, in Spanish', () => {
+    expect(getPairsProgressText({ hits: 3, totalPairs: 10 })).toBe('3 de 10 pares');
+  });
+
+  it('handles the initial state', () => {
+    expect(getPairsProgressText({ hits: 0, totalPairs: 15 })).toBe('0 de 15 pares');
+  });
+});
+
+describe('getStatsAnnouncement', () => {
+  it('summarizes pairs, turns and misses in Spanish', () => {
+    expect(getStatsAnnouncement({ hits: 3, totalPairs: 10, turns: 5, misses: 2 })).toBe(
+      '3 de 10 pares encontrados, 5 turnos, 2 errores',
+    );
+  });
+
+  it('uses the singular for exactly one turn and one miss', () => {
+    expect(getStatsAnnouncement({ hits: 0, totalPairs: 10, turns: 1, misses: 1 })).toBe(
+      '0 de 10 pares encontrados, 1 turno, 1 error',
+    );
+  });
+
+  it('uses the plural for zero turns and zero misses', () => {
+    expect(getStatsAnnouncement({ hits: 0, totalPairs: 20, turns: 0, misses: 0 })).toBe(
+      '0 de 20 pares encontrados, 0 turnos, 0 errores',
+    );
   });
 });
