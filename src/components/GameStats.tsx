@@ -12,7 +12,7 @@ type GameStatsProps = {
 
 export default function GameStats({ hits, turns, misses, totalPairs, accuracy, progressPct }: GameStatsProps) {
   return (
-    <section aria-label="Game stats" className="grid grid-cols-2 gap-4 min-[640px]:grid-cols-4">
+    <section aria-label="Game stats" className="grid grid-cols-2 gap-4 min-[640px]:grid-cols-4 min-[1024px]:grid-cols-2 min-[1024px]:gap-3">
       <StatTile
         className="col-span-2"
         label="Pairs found"

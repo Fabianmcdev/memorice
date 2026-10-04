@@ -12,14 +12,6 @@ export default {
         '2': '8px',
         '3': '12px',
         '2.5': '18px',
-        'min-47px': '60px',
-        'min-100px': '120px',
-        'min-180px': '180px'
-
-      },
-      screens: {
-        'sm': '400px',
-        'md': '700px',
       },
       borderRadius: {
         '10px': '10px',
@@ -55,6 +47,7 @@ export default {
   plugins: [
     function ({ addComponents, theme }) {
       addComponents({
+        // Card size comes from the board grid (--card-size); both faces fill the card.
         '.card': {
           display: 'flex',
           'flex-direction': 'column',
@@ -62,17 +55,19 @@ export default {
           'align-items': 'center',
           listStyle: 'none',
           position: 'relative',
+          width: '100%',
+          height: '100%',
         },
         '.card__front-card': {
           transform: 'rotateY(90deg)',
           transition: `transform ${theme('transitionDuration.300')} ease-in`,
           position: 'absolute',
+          inset: '0',
           'object-fit': 'cover',
           'border-radius': theme('borderRadius.10px'),
           border: '2px solid #fff',
-          width: theme('spacing.min-47px'),
-          height: theme('spacing.min-47px'),
-          
+          width: '100%',
+          height: '100%',
         },
         '.card--flipped .card__front-card': {
           transform: 'rotateY(0deg)',
@@ -85,21 +80,8 @@ export default {
           'background-color': theme('colors.aliceblue'),
           'border-radius': theme('borderRadius.10px'),
           padding: '2px',
-          width: theme('spacing.min-47px'),
-          height: theme('spacing.min-47px'),
-          
-        },
-        '@screen sm': {
-          '.card__front-card, .card__back-card': {
-            width: theme('spacing.min-100px'),
-            height: theme('spacing.min-100px'),
-          },
-        },
-        '@screen md': {
-          '.card__front-card, .card__back-card': {
-            width: theme('spacing.min-180px'),
-            height: theme('spacing.min-180px'),
-          },
+          width: '100%',
+          height: '100%',
         },
         '.card--flipped .card__back-card': {
           transform: 'rotateY(90deg)',
@@ -127,15 +109,33 @@ export default {
           '@apply bg-red-500 hover:bg-red-600': {}, 
         },
 
+        // Full-height column: header on top, the board area takes the rest and is measured
+        // to size the cards (see src/game/boardLayout.ts). From 1024px it becomes a row: the header is a
+        // fixed-width sidebar (ScoreBoard) and the board area fills the rest; gap-6 (24px) separates them.
+        // 100vh is the fallback for 100dvh.
         '.game-board': {
-          '@apply max-w-screen-lg mx-auto my-10 p-4': {},
+          // Wide enough for the card grid; the top header keeps its own narrower max width (ScoreBoard).
+          '@apply mx-auto flex w-full max-w-screen-xl flex-col gap-4 p-4 min-[640px]:gap-6 min-[1024px]:max-w-screen-2xl min-[1024px]:flex-row': {},
+          height: ['100vh', '100dvh'],
         },
+        '.game-board__area': {
+          '@apply flex min-h-0 min-w-0 flex-1': {},
+        },
+        // Auto margins center the grid but collapse to 0 when it overflows, so scrolling never clips it.
         '.game-board__list': {
-          '@apply mt-12 grid gap-2.5': {},
-          'grid-template-columns': 'repeat(5, minmax(0, 1fr))',
+          '@apply m-auto grid': {},
+          'grid-template-columns': 'repeat(var(--cols), var(--card-size))',
+          'grid-auto-rows': 'var(--card-size)',
+          'justify-content': 'center',
+          'align-content': 'center',
         },
         '.game-board__card': {
           '@apply relative': {},
+          width: 'var(--card-size)',
+          height: 'var(--card-size)',
+        },
+        '.game-board__banner': {
+          '@apply pointer-events-none fixed inset-0 z-10 flex items-center justify-center p-4': {},
         },
       });
     },
